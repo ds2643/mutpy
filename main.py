@@ -14,11 +14,25 @@ def recover_program(ast):
     str_repr = ast.dumps()
     return str_repr
 
-
-def valid_ast(ast):
+def validate_ast(ast):
     ''' returns boolean indicating if program runs'''
     try:
         exec(ast.dumps())
         return True
     except:
         return False
+
+def select_random_ast_node(ast):
+    ''' returns a randomly selected node of ast '''
+    return None
+
+def substitute_ast_node(node):
+    ''' swaps an ast node for another ast node '''
+    return None
+
+def collect_test_results():
+    ''' collect unittest python results '''
+    return None
+
+if __name__ == "__main__":
+    print("0")
