@@ -3,6 +3,7 @@ mutation testing in python
 '''
 from redbaron import RedBaron
 import redbaron.nodes as n
+import random as r
 
 def program_as_ast(path):
     ''' returns program (specified by path) as Python abstract syntax tree'''
@@ -42,9 +43,19 @@ def count_ast_nodes_helper(node):
 
 # TODO: substitution function node types: https://github.com/PyCQA/redbaron/blob/497a55f51a1902f67b30519c126469e60b4f569f/docs/nodes_reference.rst
 
+def random_mutation(node, tranformations, p_mutation):
+    if (r.random() <= p_mutation):
+        node_type = type(node)
+        transformation = transformations[node_type]
+        return transformation(node)
+    else:
+        return node
+
 def mutate(ast):
-    total_nodes = count_ast_nodes(ast)
-    transformations = dict()
+    ast_copy = ast.copy() # single node copy or recursive copy?
+    total_nodes = count_ast_nodes(ast_copy)
+    p_tranformation = 1/total_nodes # set probability of transforming a node as a function of total number of nodes
+    transformations = dict() # tranformations as a function of node type
     transformations.update({
             AssertNode: lambda x: x,
             AssignmentNode: lambda x: x,
@@ -106,28 +117,7 @@ def mutate(ast):
             WhileNode: lambda x: x,
             WithContextItemNode: lambda x: x,
             WithNode: lambda x: x})
-
-def walk_ast(node):
-    ''' given the (root) node of an abstract syntax tree, walk the tree conditionally based on node class... ripe for substitution appliction: credit to andrea orro and james katz'''
-    try:
-        if isinstance(node, n.AssignmentNode):
-            walk_ast(node.value)
-        elif isinstance(node, n.DefNode):
-            walk_ast(node.value)
-        elif isinstance(node, n.NameNode):
-            pass
-        elif isinstance(node, n.ReturnNode):
-            walk_ast(node.value)
-        elif isinstance(node, n.AssociativeParenthesisNode):
-            walk_ast(node.value)
-        elif isinstance(node, n.BinaryOperatorNode):
-            walk_ast(node.first)
-            walk_ast(node.second)
-        else:
-            for child in node:
-                walk_ast(child)
-    except TypeError:
-        return None
+    random_mutation(ast_copy, tranformations, p_mutation)
 
 if __name__ == "__main__":
     ast = program_as_ast(argv[1])
