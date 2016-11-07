@@ -29,6 +29,20 @@ def safety_validation(ast):
 
 #TODO for now, hard code mutations into walk
 
+
+def count_ast_nodes(node):
+    node_count = 1
+    return count_ast_nodes_helper(node)
+
+def count_ast_nodes_helper(node):
+    ''' count nodes in the AST '''
+    try:
+        for child in node:
+            node_count += count_ast_nodes_helper(child)
+        return node_count
+    except:
+        return 0
+
 def walk_ast(node):
     ''' given the (root) node of an abstract syntax tree, walk the tree conditionally based on node class... ripe for substitution appliction: credit to andrea orro and james katz'''
     try:
@@ -54,4 +68,5 @@ def walk_ast(node):
 if __name__ == "__main__":
     ast = program_as_ast(argv[1])
     if validate_ast(ast):
+        print(0)
 

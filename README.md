@@ -1,3 +1,5 @@
+** Note:L this project is incomplete and still a work in progress. Please check back later before attempting to run **
+
 # mutpy
 
 An imperative implementation of a mutation testing framework in Python. Obviously, tests serve the purpose in the software development process of ensuring that code behaves as intended. However, given some software project with a test suite too large to inspect by manually, how can we be sure the tests indeed accomplish this goal? That is, we need a tool to make sure the tests cover as much behavior of the program as possible.
