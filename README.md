@@ -1,4 +1,4 @@
-**Note: this project is incomplete and still a work in progress. Please check back later before attempting to run**
+**Note: this project is incomplete and still a work in progress. Please check back later before attempting to run.**
 
 # mutpy
 
