@@ -31,14 +31,8 @@ def validate_ast(ast):
     except:
         return False
 
-def safety_validation(ast):
-    ''' ensures program has no harmful side effects '''
-    return None
-
-#TODO for now, hard code mutations into walk
-
 class NodeCounter(ast.NodeVisitor):
-    ''' james katz'''
+    ''' supports count_ast_nodes() '''
     def __init__(self):
         self.counter = 1
     def generic_visit( self, node ):
@@ -50,7 +44,7 @@ class NodeCounter(ast.NodeVisitor):
 
 def count_ast_nodes(ast_alt):
     ''' counts nodes in ast given ast module representation of program '''
-    return NodeCounter().generic_visit(alt_ast) # create separate ast copy
+    return NodeCounter().generic_visit(alt_ast)
 
 # TODO: substitution function node types: https://github.com/PyCQA/redbaron/blob/497a55f51a1902f67b30519c126469e60b4f569f/docs/nodes_reference.rst
 
