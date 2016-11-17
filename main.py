@@ -1,15 +1,22 @@
 '''
 mutation testing in python
 '''
+import sys
+import random as r
 from redbaron import RedBaron
 import redbaron.nodes as n
-import random as r
+import ast # used for count_ast_nodes
 
 def program_as_ast(path):
-    ''' returns program (specified by path) as Python abstract syntax tree'''
+    ''' returns program (specified by path) as Python abstract syntax tree (Redbaron)'''
     # retrofit with try/except
     str_repr = open(path,'r').read()
     return RedBaron(str_repr)
+
+def program_as_ast_alt(path):
+    ''' returns program (specified by path) as Python abstract syntax tree (AST module) '''
+    str_repr = open(path,'r').read()
+    ast = ast.parse(str_repr)
 
 def recover_program(ast):
     ''' transform ast to programmatic string '''
@@ -30,30 +37,41 @@ def safety_validation(ast):
 
 #TODO for now, hard code mutations into walk
 
-def count_ast_nodes_helper(node):
-    ''' count nodes in the AST '''
-    # TODO:  fix
-    node_count = 1
-    try:
-        for child in node:
-            node_count += count_ast_nodes_helper(child)
-        return node_count
-    except:
-        return 0
+class NodeCounter(ast.NodeVisitor):
+    ''' james katz'''
+    def __init__(self):
+        self.counter = 1
+    def generic_visit( self, node ):
+        ''' override default generic_visit '''
+        self.counter += 1
+    def count_nodes(self, ast):
+        self.visit(ast) # begin crawling ast
+        return self.counter
+
+def count_ast_nodes(ast_alt):
+    ''' counts nodes in ast given ast module representation of program '''
+    return NodeCounter().generic_visit(alt_ast) # create separate ast copy
 
 # TODO: substitution function node types: https://github.com/PyCQA/redbaron/blob/497a55f51a1902f67b30519c126469e60b4f569f/docs/nodes_reference.rst
 
 def random_mutation(node, tranformations, p_mutation):
+    ''' apply type-appropriate mutation to node with specified probability'''
+    assert 0 < p_mutation < 1, ""
     if (r.random() <= p_mutation):
         node_type = type(node)
-        transformation = transformations[node_type]
-        return transformation(node)
+        transformation_f = transformations[node_type]
+        return transformation_f(node)
     else:
         return node
 
-def mutate(ast):
+def verify_mutation(ast_a, ast_b):
+    ''' returns boolean indicating if mutation succeeded in morphing genotype '''
+    return ast_a.dump() != ast_b.dump()
+
+def mutate_ast(ast, no_nodes):
+    ''' returns mutant version of programmatic ast given redbaron representation and number of nodes '''
     ast_copy = ast.copy() # single node copy or recursive copy?
-    total_nodes = count_ast_nodes(ast_copy)
+    total_nodes = no_nodes
     p_tranformation = 1/total_nodes # set probability of transforming a node as a function of total number of nodes
     transformations = dict() # tranformations as a function of node type
     transformations.update({
@@ -120,7 +138,6 @@ def mutate(ast):
     random_mutation(ast_copy, tranformations, p_mutation)
 
 if __name__ == "__main__":
-    ast = program_as_ast(argv[1])
+    ast = program_as_ast(sys.argv[1])
     if validate_ast(ast):
         print(0)
-

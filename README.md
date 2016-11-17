@@ -12,5 +12,8 @@ Note, this is a second version of my mutation testing framesworks. See mutcl for
 
 Note, the weakness of doing this in a dynamically typed language is the introduction of bias: Transformation of programmatic nodes in an unsupervised manner is not possible because nodes cannot be type-checked. Instead, mutations are only possible for a subset of the target language. In truth, this tool doesn't simulate a randomly selected subset of all possible mutations, but rather a randomly selected subset of some mutations.
 
+# Todo
+1. type depend
+
 # Notes:
 1. AST Module: Initially, interface of standard AST module preferred over RedBaron, but RedBaron doesn't support dumping the ast, which is needed to run the test suite natively.
