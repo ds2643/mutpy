@@ -75,4 +75,14 @@ def test_verify_mutation():
 
 def test_validate_ast():
     valid_ast = RedBaron("2 + 2 #valid python")
-    assert(m.validate_ast(valid_ast))
+    assert (m.validate_ast(valid_ast))
+
+def test_program_as_ast():
+    result = program_as_ast("./data/example.py") # TODO: relative file path
+    assert (isinstance(result, redbaron.redbaron.RedBaron))
+
+def test_recover_program():
+    initial_program = "2 + 2"
+    transformation = RedBaron(initial_program)
+    final_program = m.recover_program(transformation)
+    assert (final_program == initial_program)

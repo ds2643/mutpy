@@ -27,7 +27,7 @@ def program_as_ast(path):
     try:
         str_repr = open(path,'r').read()
     except:
-        print("specified file doesn't exist")
+        print("specified file doesn't exist") #TODO replace with proper error
     return RedBaron(str_repr)
 
 def recover_program(ast):
