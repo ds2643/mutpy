@@ -67,3 +67,8 @@ def test_StringNode():
     mutant = m.mutate(mock_program)
     str_repr_f = m.recover_program(mutant)
     assert(str_repr_f != str_repr_i)
+
+def test_verify_mutation():
+    ast_a = RedBaron("123")
+    ast_b = RedBaron("[1, 2, 3]")
+    assert(verify_mutation(ast_a, ast_b))

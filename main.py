@@ -83,6 +83,10 @@ def mutate_ast(ast, no_nodes, trans = TRANSFORMATIONS):
     p_tranformation = 1/total_nodes
     return random_mutation(ast_copy, tran, p_mutation)
 
+def mutate():
+    "mutate ast node conditionally on type"
+    pass
+
 if __name__ == "__main__":
     ast = program_as_ast(sys.argv[1])
     if validate_ast(ast):
