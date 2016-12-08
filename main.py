@@ -8,12 +8,10 @@ import redbaron.nodes as n
 import ast # used for count_ast_nodes
 
 # TODO: substitution function node types: https://github.com/PyCQA/redbaron/blob/497a55f51a1902f67b30519c126469e60b4f569f/docs/nodes_reference.rst
+# TODO: node documentation http://redbaron.readthedocs.io/en/latest/nodes_reference.html
 
 TRANSFORMATIONS = {
     #subset of nodes that occur in RedBarron involving constant expressions
-            "AssertNode": lambda x: x,
-            "AssignmentNode": lambda x: x,
-            "AssociativeParenthesisNode": lambda x: x,
             "BinaryNode": lambda x: x,
             "BinaryOperatorNode": lambda x: x,
             "BooleanOperatorNode": lambda x: x,
@@ -22,8 +20,8 @@ TRANSFORMATIONS = {
             "IntNode": lambda x: x,
             "ListNode": lambda x: x,
             "SetNode": lambda x: x,
-            "SliceNode": lambda x: x,
-            "StringChainNode": lambda x: x}
+            "StringNode": lambda x: x}
+
 
 def program_as_ast(path):
     ''' returns program (specified by path) as Python abstract syntax tree (Redbaron)'''
