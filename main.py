@@ -22,17 +22,13 @@ TRANSFORMATIONS = {
             "SetNode": lambda x: x,
             "StringNode": lambda x: x}
 
-
 def program_as_ast(path):
     ''' returns program (specified by path) as Python abstract syntax tree (Redbaron)'''
-    # retrofit with try/except
-    str_repr = open(path,'r').read()
+    try:
+        str_repr = open(path,'r').read()
+    except:
+        print("specified file doesn't exist")
     return RedBaron(str_repr)
-
-def program_as_ast_alt(path):
-    ''' returns program (specified by path) as Python abstract syntax tree (AST module) '''
-    str_repr = open(path,'r').read()
-    ast = ast.parse(str_repr)
 
 def recover_program(ast):
     ''' transform ast to programmatic string '''
