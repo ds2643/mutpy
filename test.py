@@ -71,4 +71,8 @@ def test_StringNode():
 def test_verify_mutation():
     ast_a = RedBaron("123")
     ast_b = RedBaron("[1, 2, 3]")
-    assert (verify_mutation(ast_a, ast_b))
+    assert (m.verify_mutation(ast_a, ast_b))
+
+def test_validate_ast():
+    valid_ast = RedBaron("2 + 2 #valid python")
+    assert(m.validate_ast(valid_ast))

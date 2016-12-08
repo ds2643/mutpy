@@ -38,7 +38,9 @@ def recover_program(ast):
 def validate_ast(ast):
     ''' returns boolean indicating if program runs'''
     try:
-        exec(ast.dumps()) # TODO: redirect outpurt
+        from IPython.utils.capture import capture_output
+        with capture_output() as c:
+            exec(ast.dumps()) # TODO: redirect outpurt
         return True
     except:
         return False
