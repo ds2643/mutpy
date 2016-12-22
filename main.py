@@ -1,93 +1,55 @@
-'''
-mutation testing in python
-'''
 import sys
-import random as r
-from redbaron import RedBaron
-import redbaron.nodes as n
-import ast # used for count_ast_nodes
+import runner as r
+import tempfile
+from shutil import copyfile
+import os.path
+import random as rnd
 
-# TODO: substitution function node types: https://github.com/PyCQA/redbaron/blob/497a55f51a1902f67b30519c126469e60b4f569f/docs/nodes_reference.rst
-# TODO: node documentation http://redbaron.readthedocs.io/en/latest/nodes_reference.html
+TEMP_DIR = "/tmp/"
 
-TRANSFORMATIONS = {
-    #subset of nodes that occur in RedBarron involving constant expressions
-            "BinaryNode": lambda x: x,
-            "BinaryOperatorNode": lambda x: x,
-            "BooleanOperatorNode": lambda x: x,
-            "ComparisonNode": lambda x: x,
-            "DictNode": lambda x: x,
-            "IntNode": lambda x: x,
-            "ListNode": lambda x: x,
-            "SetNode": lambda x: x,
-            "StringNode": lambda x: x}
+def generate_temp_filename(temp_dir):
+    ''' generate a str filename representation that does not conflict with other file names in the temp directory '''
+    possible_name = "project" + str(rnd.randint(100,10000))
+    possible_path = temp_dir + possible_name
+    if os.path.isfile(possible_path):
+        return generate_temp_filename(temp_dir)
+    else:
+        return possible_name
 
-def program_as_ast(path):
-    ''' returns program (specified by path) as Python abstract syntax tree (Redbaron)'''
+def seed_test_results(test_path):
+    ''' dictionary of results prior to mutation '''
+    return r.parse_pytest_result(test_path)
+
+def recover_src_file(temp_src_path, rel_src_path):
+    ''' restores src file to prior state'''
+    assert os.path.isfile(temp_src_path)
+    assert os.path.isfile(rel_src_path)
+    copyfile(rel_src_path, temp_src_path)
+
+def program_as_str(path):
+    ''' returns program specified by argument as string'''
     try:
         str_repr = open(path,'r').read()
     except:
-        print("specified file doesn't exist") #TODO replace with proper error
-    return RedBaron(str_repr)
-
-def recover_program(ast):
-    ''' transform ast to programmatic string '''
-    str_repr = ast.dumps()
+        str_repr = None
     return str_repr
 
-def validate_ast(ast):
-    ''' returns boolean indicating if program runs'''
-    try:
-        from IPython.utils.capture import capture_output
-        with capture_output() as c:
-            exec(ast.dumps()) # TODO: redirect output
-        return True
-    except:
-        return False
-
-class NodeCounter(ast.NodeVisitor):
-    ''' supports count_ast_nodes() '''
-    def __init__(self):
-        self.counter = 1
-    def generic_visit( self, node ):
-        ''' override default generic_visit '''
-        self.counter += 1
-    def count_nodes(self, ast):
-        self.visit(ast) # begin crawling ast
-        return self.counter
-
-def count_ast_nodes(ast_alt):
-    ''' counts nodes in ast given ast module representation of program '''
-    return NodeCounter().generic_visit(alt_ast)
-
-def random_mutation(node, tranformations, p_mutation):
-    ''' apply type-appropriate mutation to node with specified probability'''
-    assert 0 < p_mutation < 1, ""
-    if (r.random() <= p_mutation):
-        node_type = type(node)
-        transformation_f = transformations[node_type]
-        return transformation_f(node)
-    else:
-        return node
-
-def verify_mutation(ast_a, ast_b):
-    ''' returns boolean indicating if mutation succeeded in morphing genotype '''
-    return ast_a.dump() != ast_b.dump()
-
-def mutate_ast(ast, no_nodes, trans = TRANSFORMATIONS):
-    ''' returns mutant version of programmatic ast given redbaron representation and number of nodes '''
-    ast_copy = ast.copy() # single node copy or recursive copy?
-    total_nodes = no_nodes
-    p_tranformation = 1/total_nodes
-    return random_mutation(ast_copy, tran, p_mutation)
-
-def mutate():
-    "mutate ast node conditionally on type"
-    pass
-
-#TODO def save_ir(): """ exec in ~/TEMP """ pass
-
 if __name__ == "__main__":
-    ast = program_as_ast(sys.argv[1])
-    if validate_ast(ast):
-        print(0)
+    project_path = sys.argv[1]
+    # TODO: support multiple src and tests files with argparse module
+    rel_src_path = sys.argv[2]
+    rel_test_path = sys.argv[3]
+    temp_file_name = generate_temp_filename(TEMP_DIR)
+
+    assert isinstance(project_path, str) and os.path.isfile(project_path)
+    temp_project_path = TEMP_DIR + temp_file_name
+    copyfile(project_path, temp_project_path)
+    temp_test_path = temp_project_path + "/" + rel_test_path
+    assert os.path.isfile(temp_test_path)
+    temp_src_path = temp_project_path + "/" + rel_src_path
+    assert os.path.isfile(temp_src_path)
+
+    # ...
+    init_test_results = seed_test_results(temp_test_path)
+    # TODO: transform to loop
+
