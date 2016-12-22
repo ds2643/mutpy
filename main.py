@@ -4,6 +4,7 @@ import tempfile
 from shutil import copyfile
 import os.path
 import random as rnd
+import transformation as t
 
 TEMP_DIR = "/tmp/"
 
@@ -16,7 +17,7 @@ def generate_temp_filename(temp_dir):
     else:
         return possible_name
 
-def seed_test_results(test_path):
+def test_results(test_path):
     ''' dictionary of results prior to mutation '''
     return r.parse_pytest_result(test_path)
 
@@ -35,10 +36,11 @@ def program_as_str(path):
     return str_repr
 
 if __name__ == "__main__":
-    project_path = sys.argv[1]
     # TODO: support multiple src and tests files with argparse module
+    project_path = sys.argv[1]
     rel_src_path = sys.argv[2]
     rel_test_path = sys.argv[3]
+    iterations = sys.argv[4]
     temp_file_name = generate_temp_filename(TEMP_DIR)
 
     assert isinstance(project_path, str) and os.path.isfile(project_path)
@@ -49,7 +51,11 @@ if __name__ == "__main__":
     temp_src_path = temp_project_path + "/" + rel_src_path
     assert os.path.isfile(temp_src_path)
 
-    # ...
-    init_test_results = seed_test_results(temp_test_path)
-    # TODO: transform to loop
-
+    # TODO: design parallel loop structure
+    init_test_results = test_results(temp_test_path)
+    for i in iterations:
+        # mutant =
+        # save mutant
+        mutant_test_results = test_results(temp_test_path)
+    # TODO: delete mutant
+    # TODO: write result to file
