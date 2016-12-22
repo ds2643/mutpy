@@ -40,7 +40,7 @@ def validate_ast(ast):
     try:
         from IPython.utils.capture import capture_output
         with capture_output() as c:
-            exec(ast.dumps()) # TODO: redirect outpurt
+            exec(ast.dumps()) # TODO: redirect output
         return True
     except:
         return False
@@ -84,6 +84,8 @@ def mutate_ast(ast, no_nodes, trans = TRANSFORMATIONS):
 def mutate():
     "mutate ast node conditionally on type"
     pass
+
+#TODO def save_ir(): """ exec in ~/TEMP """ pass
 
 if __name__ == "__main__":
     ast = program_as_ast(sys.argv[1])
