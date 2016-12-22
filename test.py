@@ -83,7 +83,7 @@ def test_validate_ast():
 
 def test_program_as_ast():
     result = m.program_as_ast("./data/example.py") # TODO: relative file path
-    assert (isinstance(result, redbaron.redbaron.RedBaron))
+    assert (isinstance(result, RedBaron))
 
 def test_recover_program():
     initial_program = "2 + 2"

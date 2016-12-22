@@ -8,6 +8,5 @@
   "test.py::test_ListNode": true,
   "test.py::test_SetNode": true,
   "test.py::test_StringNode": true,
-  "test.py::test_program_as_ast": true,
   "test.py::test_verify_mutation": true
 }
