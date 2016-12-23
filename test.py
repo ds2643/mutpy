@@ -131,18 +131,11 @@ def test_parse_pytest_result_empty():
     time = actual["time"]
     assert actual_passed == EXPECTED_PASSED and actual_failed == EXPECTED_FAILED and isinstance(time, float) and actual_total == EXPECTED_TOTAL
 
-# TODO: 'main.py' function definitions
 def test_generate_temp_filename():
-    # TODO: write test
-    assert False
-
-def test_test_results():
-    # TODO: write test
-    assert False
-
-def test_recover_src_file():
-    # TODO: write test
-    assert False
+    target_file = "test_data/test_project/" # TODO: abstract out file references
+    assert os.path.isdir(target_file)
+    result = m.generate_temp_filename(target_file)
+    assert isinstance(result, str)
 
 def test_program_as_str():
     program_file = TEST_PROJECT + "main.py"
@@ -150,7 +143,26 @@ def test_program_as_str():
     program_str = m.program_as_str(program_file)
     assert isinstance(program_str, str)
 
-def test_overwrite_src():
-    # TODO: write test
+def test_recover_src_file():
+    # TODO: look up missing fns
+    # TODO: if a file is at target file path, delete it
+    target_file_path = "test_data/test_project/test_file.py"
+    src_file_path = "test_data/test_project/main.py"
+    # TODO: create empty file with name of target_file_path
+    # TODO: read contents of target_file_path
+    initial_content_str = ""
+    m.recover_src_file(src_file_path, target_file_path)
+    final_content_str = ""
+    # TODO: delete file at target_file_path
+    # TODO: assert initial_content_str != final_content_str
     assert False
 
+def test_overwrite_src():
+    # TODO: write test
+    # TODO: create a copy of the test_project from the test directory
+    # TODO: record the test_project copy's src path's contents
+    # TODO: overwrite the test_project copy's src with an empty string
+    # TODO: read the updated src file contents
+    # TODO: delete the copy of the test_project
+    # TODO: assert initial_content_str != final_content_str
+    assert False
