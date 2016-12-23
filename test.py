@@ -1,12 +1,14 @@
+
 import mutate as mu
 import ast as a
-
+import os
 import main as m
 from redbaron import RedBaron
 import runner as r
 
 TEST_DIR = 'test_data/pytest_examples/'
 TEST_FILES = list(map((lambda x: TEST_DIR + x), ['test_some_pass.py', 'test_all_pass.py', 'test_all_fail.py', 'test_empty']))
+TEST_PROJECT = "test_data/test_project/"
 
 def test_str_to_ast():
     valid_python = "2 + 2"
@@ -128,3 +130,27 @@ def test_parse_pytest_result_empty():
     actual_total = actual["total"]
     time = actual["time"]
     assert actual_passed == EXPECTED_PASSED and actual_failed == EXPECTED_FAILED and isinstance(time, float) and actual_total == EXPECTED_TOTAL
+
+# TODO: 'main.py' function definitions
+def test_generate_temp_filename():
+    # TODO: write test
+    assert False
+
+def test_test_results():
+    # TODO: write test
+    assert False
+
+def test_recover_src_file():
+    # TODO: write test
+    assert False
+
+def test_program_as_str():
+    program_file = TEST_PROJECT + "main.py"
+    assert os.path.isfile(program_file)
+    program_str = m.program_as_str(program_file)
+    assert isinstance(program_str, str)
+
+def test_overwrite_src():
+    # TODO: write test
+    assert False
+

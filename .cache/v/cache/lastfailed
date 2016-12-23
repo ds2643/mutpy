@@ -1,0 +1,6 @@
+{
+  "test.py::test_generate_temp_filename": true,
+  "test.py::test_overwrite_src": true,
+  "test.py::test_recover_src_file": true,
+  "test.py::test_test_results": true
+}
