@@ -148,7 +148,7 @@ def test_recover_src_file():
     src_file_path = "test_data/test_project/main.py"
     if os.path.isfile(test_file_path):
         os.remove(test_file_path)
-    open(x, test_file_path).close()
+    open(test_file_path, 'a').close()
     assert os.path.isfile(test_file_path) # TODO: remove this check once it is established that test_file creation works
     m.recover_src_file(src_file_path, test_file_path)
     test_file_cont_str = m.program_as_str(test_file_path)
