@@ -1,6 +1,5 @@
-# tests accompanying main module of mutpy mutation testing tool; uses pytest as unit testing framework
-
-# TODO: write tests mocking occurances of each node type of red baron ast representation to test mutation function
+import mutate as mu
+import ast as a
 
 import main as m
 from redbaron import RedBaron
@@ -9,87 +8,37 @@ import runner as r
 TEST_DIR = 'test_data/pytest_examples/'
 TEST_FILES = list(map((lambda x: TEST_DIR + x), ['test_some_pass.py', 'test_all_pass.py', 'test_all_fail.py', 'test_empty']))
 
-def test_BinaryNode():
-    str_repr_i= "0b10101"
-    mock_program = RedBaron(string_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
+def test_str_to_ast():
+    valid_python = "2 + 2"
+    observed = mu.str_to_ast(valid_python)
+    assert isinstance(observed, a.AST)
 
-def test_BinaryOperatorNode():
-    str_repr_i = "1 + 1"
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_BooleanOperatorNode():
-    str_repr_i= "x and y"
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_ComparisonNode():
-    str_repr_i= "42 > 30"
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_DictNode():
-    str_repr_i= "{'a': 1, 'b':2, 'c': 3}"
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_IntNode():
-    str_repr_i= "42"
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_ListNode():
-    str_repr_i= "[1, 2, 3]"
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_SetNode():
-    str_repr_i= "{1, 2, 3}"
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_StringNode():
-    str_repr_i= "\"hello world\""
-    mock_program = RedBaron(str_repr_i)
-    mutant = m.mutate(mock_program)
-    str_repr_f = m.recover_program(mutant)
-    assert (str_repr_f != str_repr_i)
-
-def test_verify_mutation():
-    ast_a = RedBaron("123")
-    ast_b = RedBaron("[1, 2, 3]")
-    assert (m.verify_mutation(ast_a, ast_b))
+def test_ast_to_str():
+    # TODO: flaky test! we don't want to test for exact equality, but instead for same result of execution
+    valid_python = "(2 + 2)"
+    some_ast = a.parse(valid_python)
+    observed = mu.ast_to_str(some_ast)
+    assert valid_python == observed
 
 def test_validate_ast():
-    valid_ast = RedBaron("2 + 2 #valid python")
-    assert (m.validate_ast(valid_ast))
+    valid_python = "(2 + 2)"
+    some_ast = a.parse(valid_python)
+    result = mu.validate_ast(some_ast)
+    assert result
 
-def test_program_as_ast():
-    result = m.program_as_ast("./data/example.py") # TODO: relative file path
-    assert (isinstance(result, RedBaron))
+def test_verify_mutation():
+    program_a_str = "1 + 1"
+    program_b_str = "2 + 2"
+    program_a_ast = mu.str_to_ast(program_a_str)
+    program_b_ast = mu.str_to_ast(program_b_str)
+    assert mu.verify_mutation(program_a_ast, program_b_ast)
 
-def test_recover_program():
-    initial_program = "2 + 2"
-    transformation = RedBaron(initial_program)
-    final_program = m.recover_program(transformation)
-    assert (final_program == initial_program)
+def test_count_nodes():
+    valid_python = "2+2;3+3;x=2"
+    EXPECTED_N_NODES = 3
+    program_ast = a.parse(valid_python)
+    observed_n_nodes = mu.count_nodes(program_ast)
+    assert EXPECTED_N_NODES == observed_n_nodes
 
 def test_pytest_result():
     ''' result of capturing the result of running a test in code is a string '''
