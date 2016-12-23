@@ -4,7 +4,7 @@ import tempfile
 from shutil import copyfile
 import os.path
 import random as rnd
-import transformation as t
+import mutate as m
 
 TEMP_DIR = "/tmp/"
 
@@ -34,6 +34,12 @@ def program_as_str(path):
     except:
         str_repr = None
     return str_repr
+
+def overwrite_src(src_path, program_str):
+    ''' replaces previous file contents with specified string '''
+    assert os.path.isfile(src_path)
+    # TODO: implement
+    return None
 
 if __name__ == "__main__":
     # TODO: support multiple src and tests files with argparse module

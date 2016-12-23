@@ -3,6 +3,7 @@ import random as r
 from redbaron import RedBaron
 import redbaron.nodes as n
 import ast # used for count_ast_nodes
+from IPython.utils.capture import capture_output
 
 def program_as_ast(program_str):
     ''' modified function returns program string as redbaron ast object'''
@@ -16,7 +17,6 @@ def recover_program(ast):
 def validate_ast(ast):
     ''' returns boolean indicating if program runs'''
     try:
-        from IPython.utils.capture import capture_output
         with capture_output() as c:
             exec(ast.dumps()) # TODO: redirect output
         return True
