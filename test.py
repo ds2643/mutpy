@@ -144,20 +144,19 @@ def test_program_as_str():
     assert isinstance(program_str, str)
 
 def test_recover_src_file():
-    # TODO: look up missing fns
-    # TODO: if a file is at target file path, delete it
-    target_file_path = "test_data/test_project/test_file.py"
+    test_file_path = "test_data/test_project/test_file.py"
     src_file_path = "test_data/test_project/main.py"
-    # TODO: create empty file with name of target_file_path
-    # TODO: read contents of target_file_path
-    initial_content_str = ""
-    m.recover_src_file(src_file_path, target_file_path)
-    final_content_str = ""
-    # TODO: delete file at target_file_path
-    # TODO: assert initial_content_str != final_content_str
-    assert False
+    if os.path.isfile(test_file_path):
+        os.remove(test_file_path)
+    open(x, test_file_path).close()
+    assert os.path.isfile(test_file_path) # TODO: remove this check once it is established that test_file creation works
+    m.recover_src_file(src_file_path, test_file_path)
+    test_file_cont_str = m.program_as_str(test_file_path)
+    src_file_cont_str = m.program_as_str(src_file_path)
+    os.remove(test_file_path)
+    assert src_file_cont_str == test_file_cont_str
 
-def test_overwrite_src():
+def test_overwrite_file():
     # TODO: write test
     # TODO: create a copy of the test_project from the test directory
     # TODO: record the test_project copy's src path's contents
@@ -165,4 +164,8 @@ def test_overwrite_src():
     # TODO: read the updated src file contents
     # TODO: delete the copy of the test_project
     # TODO: assert initial_content_str != final_content_str
+    assert False
+
+def test_run_mutation_test():
+    # TODO: write test
     assert False
