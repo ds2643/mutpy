@@ -1,4 +1,3 @@
-# mutation with ast/astor interface
 import ast as a
 import astor as ar
 from IPython.utils.capture import capture_output
@@ -31,4 +30,8 @@ def count_nodes(program_ast):
     ''' counts nodes in an ast representation '''
     return len([node for node in program_ast.body])
 
-
+def false_mutation(program_ast):
+    ''' mutation standin that doesn't alter the ast '''
+    # TODO: replace with real mutation function
+    mutant_ast = program_ast
+    return mutant_ast

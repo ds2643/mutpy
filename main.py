@@ -37,10 +37,31 @@ def program_as_str(path):
 
 def overwrite_file(file_path, program_str):
     ''' replaces previous file contents with specified string '''
+    # TODO: test
     assert os.path.isfile(file_path)
     with open(filename, 'w') as f:
         f.write(program_str)
         f.close()
+
+def run_mutation_test(temp_src_path, temp_test_path, rel_src_path):
+    ''' collect dictionary of results from mutating src '''
+    # TODO: test
+    # TODO: create mutant
+    assert os.path.isfile(temp_src_path)
+    assert os.path.isfile(temp_test_path)
+    src_str = program_as_str(temp_src_path)
+    src_ast = m.str_to_ast(src_str)
+    mutant_ast = m.false_mutation(src_ast) # TODO: substitute for real mutation alg
+    assert m.validate_ast(mutant_ast)
+    mutant_str = m.ast_to_str(mutant_ast)
+    overwrite_file(temp_src_path, mutant_str)
+    mutant_test_results = test_results(temp_test_path)
+    recover_src_file(temp_src_path, rel_src_path)
+    return mutant_test_results
+
+def run_n_mutations(n):
+    ''' return result of n mutation test trials '''
+    pass
 
 if __name__ == "__main__":
     # TODO: support multiple src and tests files with argparse module
@@ -57,16 +78,7 @@ if __name__ == "__main__":
     # prepare copy of project for munipulation
     copyfile(project_path, temp_project_path)
     assert os.path.isfile(temp_test_path)
-    assert os.path.isfile(temp_src_path)
 
-    # TODO: dry mutation functionality
     init_test_results = test_results(temp_test_path)
-    results = []
-    for i in iterations:
-        # TODO: create mutant
-        # TODO: save mutant
-        # TODO: verify mutation
-        mutant_test_results = test_results(temp_test_path)
-        results = results + mutant_test_results
-    # TODO: delete mutant
-    # TODO: write result to file
+    run_mutation_test(temp)
+    # TODO: print results; later add csv log support
