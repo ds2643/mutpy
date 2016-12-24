@@ -1,3 +1,7 @@
 {
+  "test.py::test_generate_temp_filename": true,
+  "test.py::test_overwrite_file": true,
+  "test.py::test_program_as_str": true,
+  "test.py::test_recover_src_file": true,
   "test.py::test_run_mutation_test": true
 }

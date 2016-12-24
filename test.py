@@ -1,10 +1,11 @@
-
 import mutate as mu
+import main as m
+import runner as r
 import ast as a
 import os
-import main as m
-from redbaron import RedBaron
-import runner as r
+from shutil import copyfile
+from shutil import copytree
+from shutil import rmtree
 
 TEST_DIR = 'test_data/pytest_examples/'
 TEST_FILES = list(map((lambda x: TEST_DIR + x), ['test_some_pass.py', 'test_all_pass.py', 'test_all_fail.py', 'test_empty']))
@@ -172,9 +173,12 @@ def test_overwrite_file():
     assert init_content_str != observed_content_str
 
 def test_run_mutation_test():
-    # TODO: write test
+    test_project_path = "test_data/test_project"
+    temp_project_path = "/tmp/test_project"
     temp_src_path = "/tmp/test_project/main.py"
     temp_test_path = "/tmp/test_project/test.py"
     rel_src_path = "test_data/test_project/main.py"
-    result = run_mutation_test(temp_src_path, temp_test_path, rel_src_path)
+    copytree(test_project_path, temp_project_path)
+    result = m.run_mutation_test(temp_src_path, temp_test_path, rel_src_path)
+    rmtree(test_project_path) # TODO: clean directory
     assert isinstance(result, dict)
