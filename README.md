@@ -2,17 +2,28 @@
 
 mutpy
 ======
-python mutation testing. test your tests.
+Mutation testing tool for probing the quality of tests written in PyTest accompanying Python projects.
 
 Description
 ------
-An imperative implementation of a mutation testing framework in Python. Obviously, tests serve the purpose in the software development process of ensuring that code behaves as intended. However, given some software project with a test suite too large to inspect by manually, how can we be sure the tests indeed accomplish this goal? That is, we need a tool to make sure the tests cover as much behavior of the program as possible.
+An imperative implementation of a mutation testing framework in Python targeting PyTest tests.
 
-Mutation testing helps us measure the sensitivity of a project's tests to bugs. This is accomplished by 1) iteratively introducing randomly selected bugs to the program in random places 2) observing the proportion of so-called mutants which continue to pass the test suite compared to those mutants which fail the tests (mutants that throw run-time errors are disgarded). In short, mutation testing tests tests by seeing how sensitive tests are to bugs.
+Obviously, tests serve the purpose in the software development process of ensuring that code behaves as intended. However, developers often fail to question the quality of tests. Given a Python project with a test suite too large or complex to inspect manually, a strategy for judging the quality of tests might not be apparent. We therefore require a tool to make sure the tests cover as much behavior of the program as possible. Mutation testing automates this process to lower the cost of assuring test quality.
 
-The approach involves tranforming the program in question to an abstract syntax tree (which is easily accomplished in Python using libraries like RedBaron or AST), applying psudo-random point-mutations (single node) to the AST. The code is then regenerated (a helpful feature of RedBaron not found in the standard AST module) and tested with the included test library.
+In a nutshell, mutation testing provides a litmus of the sensitivity of a project's tests to bugs. This is accomplished by introducing random changes to the source and observing the proportion of so-called mutants which continue to pass the test suite. Mutants that throw run-time errors are disgarded.
 
-Note, this is a second version of my mutation testing framesworks. See mutcl for a sister project written in Clojure that serves the same purpose as this project. In my opinion, Clojure is slightly easier to mutate because lisps are homoiconic (the program is easier to munipute). In the case of mutcl, mutation is simply a stochastic traversal and function application to the program (represented as a tree of nested lists).
+Approach
+------
+Mutpy creates a temporary copy of the project. Source files are rendered and munipulated as abstract syntax tree representions. Random point-mutations are applied to this structure. The code is then regenerated and tested with the packaged test library. Tests are monitored for failures. This process is repeated a number of times defined by the user of mutpy.
 
-Note, the weakness of doing this in a dynamically typed language is the introduction of bias: Transformation of programmatic nodes in an unsupervised manner is not possible because nodes cannot be type-checked. Instead, mutations are only possible for a subset of the target language. In truth, this tool doesn't simulate a randomly selected subset of all possible mutations, but rather a randomly selected subset of some mutations.
+
+mutcl
+------
+This project is the sister version of an earlier mutation testing tool built in Clojure, mutcl. In my opinion, Clojure is slightly easier to mutate because of the language's homoiconicity: Code is treated as data, so the source is traversed as a tree of nested lists. Stocastic straversal of the program presents a challenge in the functional paradigm, but lessons learned implementing mutcl are to the benefit of this implementation.
+
+Limitations:
+------
+Python's dynamic typing system provides a challenge to the goal of randomly transforming source. Whereas a statically typed language like Haskell, through the provision of type signatures, provides the necessary information to make unsupervised mutation of arbitrary nodes of a program's abstract syntax tree, mutation of programs in a dynamically typed language might be limited to a small subset of the language. This limitation introduces bias to mutpy's approach. This tool doesn't simulate a randomly selected subset of all possible mutations, but rather a randomly selected subset of some mutations.
+
+Suggestions on type-checking arbitrary Python forms are welcome.
 
