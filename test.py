@@ -157,7 +157,6 @@ def test_recover_src_file():
     assert src_file_cont_str == test_file_cont_str
 
 def test_overwrite_file():
-    # TODO: write test
     test_file_path = "test_data/test_project/test_file.py"
     if os.path.isfile(test_file_path):
         os.remove(test_file_path)
@@ -174,4 +173,8 @@ def test_overwrite_file():
 
 def test_run_mutation_test():
     # TODO: write test
-    assert False
+    temp_src_path = "/tmp/test_project/main.py"
+    temp_test_path = "/tmp/test_project/test.py"
+    rel_src_path = "test_data/test_project/main.py"
+    result = run_mutation_test(temp_src_path, temp_test_path, rel_src_path)
+    assert isinstance(result, dict)

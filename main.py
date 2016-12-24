@@ -5,6 +5,7 @@ from shutil import copyfile
 import os.path
 import random as rnd
 import mutate as m
+import os
 
 TEMP_DIR = "/tmp/"
 
@@ -37,7 +38,6 @@ def program_as_str(path):
 
 def overwrite_file(file_path, program_str):
     ''' replaces previous file contents with specified string '''
-    # TODO: test
     assert os.path.isfile(file_path)
     with open(file_path, 'w') as f:
         f.write(program_str)
@@ -80,4 +80,7 @@ if __name__ == "__main__":
 
     init_test_results = test_results(temp_test_path)
     run_mutation_test(temp)
+
     # TODO: print results; later add csv log support
+    assert os.path.isfile(temp_project_path) # TODO: remove after system demonstrated to work as whole
+    os.remove(temp_project_path)
