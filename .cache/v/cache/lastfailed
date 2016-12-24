@@ -1,4 +1,3 @@
 {
-  "test.py::test_overwrite_file": true,
   "test.py::test_run_mutation_test": true
 }

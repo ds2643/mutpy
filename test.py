@@ -149,7 +149,7 @@ def test_recover_src_file():
     if os.path.isfile(test_file_path):
         os.remove(test_file_path)
     open(test_file_path, 'a').close()
-    assert os.path.isfile(test_file_path) # TODO: remove this check once it is established that test_file creation works
+    assert os.path.isfile(test_file_path)
     m.recover_src_file(src_file_path, test_file_path)
     test_file_cont_str = m.program_as_str(test_file_path)
     src_file_cont_str = m.program_as_str(src_file_path)
@@ -158,13 +158,19 @@ def test_recover_src_file():
 
 def test_overwrite_file():
     # TODO: write test
-    # TODO: create a copy of the test_project from the test directory
-    # TODO: record the test_project copy's src path's contents
-    # TODO: overwrite the test_project copy's src with an empty string
-    # TODO: read the updated src file contents
-    # TODO: delete the copy of the test_project
-    # TODO: assert initial_content_str != final_content_str
-    assert False
+    test_file_path = "test_data/test_project/test_file.py"
+    if os.path.isfile(test_file_path):
+        os.remove(test_file_path)
+    init_content_str = "2 + 2"
+    with open(test_file_path, 'a') as f:
+        f.write(init_content_str)
+        f.close()
+    assert os.path.isfile(test_file_path)
+    new_content_str = "5 + 5"
+    m.overwrite_file(test_file_path, new_content_str)
+    observed_content_str = m.program_as_str(test_file_path)
+    os.remove(test_file_path)
+    assert init_content_str != observed_content_str
 
 def test_run_mutation_test():
     # TODO: write test

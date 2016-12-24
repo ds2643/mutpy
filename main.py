@@ -39,14 +39,13 @@ def overwrite_file(file_path, program_str):
     ''' replaces previous file contents with specified string '''
     # TODO: test
     assert os.path.isfile(file_path)
-    with open(filename, 'w') as f:
+    with open(file_path, 'w') as f:
         f.write(program_str)
         f.close()
 
 def run_mutation_test(temp_src_path, temp_test_path, rel_src_path):
     ''' collect dictionary of results from mutating src '''
     # TODO: test
-    # TODO: create mutant
     assert os.path.isfile(temp_src_path)
     assert os.path.isfile(temp_test_path)
     src_str = program_as_str(temp_src_path)
