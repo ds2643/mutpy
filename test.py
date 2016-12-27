@@ -181,7 +181,7 @@ def test_run_mutation_test():
     rel_src_path = "test_data/test_project/main.py"
     copytree(test_project_path, temp_project_path)
     result = m.run_mutation_test(temp_src_path, temp_test_path, rel_src_path)
-    rmtree(temp_project_path) # TODO: clean directory
+    rmtree(temp_project_path)
     assert isinstance(result, dict)
 
 def test_type_in_union():

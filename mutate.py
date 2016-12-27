@@ -79,7 +79,10 @@ def mutate_constants(root):
     root_copy = deepcopy(root)
     n_constants = count_constants(root)
     constant_node_types = {a.Num, a.Str, a.Bytes, a.NameConstant}
-    p_change = 1/n_constants # probability of change
+    try:
+        p_change = 1/n_constants # probability of change
+    except:
+        return root
     for node in a.walk(root):
         if type_in_union(node, constant_node_types) and r.random() <= p_change:
             substitute_value(node) # no return value, change in place to accomodate for different methods associated with different node types

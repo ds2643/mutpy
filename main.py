@@ -45,12 +45,11 @@ def overwrite_file(file_path, program_str):
 
 def run_mutation_test(temp_src_path, temp_test_path, rel_src_path):
     ''' collect dictionary of results from mutating src '''
-    # TODO: test
     assert os.path.isfile(temp_src_path)
     assert os.path.isfile(temp_test_path)
     src_str = program_as_str(temp_src_path)
     src_ast = m.str_to_ast(src_str)
-    mutant_ast = m.false_mutation(src_ast) # TODO: substitute for real mutation alg
+    mutant_ast = m.mutate_constants(src_ast)
     assert m.validate_ast(mutant_ast)
     mutant_str = m.ast_to_str(mutant_ast)
     overwrite_file(temp_src_path, mutant_str)
@@ -79,7 +78,7 @@ if __name__ == "__main__":
     assert os.path.isfile(temp_test_path)
 
     init_test_results = test_results(temp_test_path)
-    run_mutation_test(temp)
+    test_results = run_mutation_test(temp)
 
     # TODO: print results; later add csv log support
     assert os.path.isfile(temp_project_path) # TODO: remove after system demonstrated to work as whole
