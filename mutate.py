@@ -75,12 +75,10 @@ def substitute_value(node):
             node.value = r.random() >= 0.5
 
 def mutate_constants(root):
-    # TODO: test
-    ''' mutate a random constant in the abstract syntax tree '''
+    ''' mutate a random constant in the abstract syntax tree: mutation performed in place, so this function is impure '''
     root_copy = deepcopy(root)
     n_constants = count_constants(root)
     constant_node_types = {a.Num, a.Str, a.Bytes, a.NameConstant}
-    assert count_constants(root) == count_constants(root) # TODO: development check, delete post-confirmation
     p_change = 1/n_constants # probability of change
     for node in a.walk(root):
         if type_in_union(node, constant_node_types) and r.random() <= p_change:

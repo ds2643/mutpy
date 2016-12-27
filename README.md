@@ -1,5 +1,3 @@
-**Note: this project is an incomplete. Please check back later before attempting to run.**
-
 mutpy
 ======
 Mutation testing tool for probing the quality of tests written in PyTest accompanying Python projects.
@@ -23,7 +21,6 @@ This project is the sister version of an earlier mutation testing tool built in 
 
 Limitations:
 ------
-Python's dynamic typing system provides a challenge to the goal of randomly transforming source. Whereas a statically typed language like Haskell, through the provision of type signatures, provides the necessary information to make unsupervised mutation of arbitrary nodes of a program's abstract syntax tree, mutation of programs in a dynamically typed language might be limited to a small subset of the language. This limitation introduces bias to mutpy's approach. This tool doesn't simulate a randomly selected subset of all possible mutations, but rather a randomly selected subset of some mutations.
+Python's dynamic typing system provides a challenge to the goal of randomly transforming source. Whereas a statically typed language like Haskell, through the provision of type signatures, provides the necessary information to make unsupervised mutation of arbitrary nodes of a program's abstract syntax tree, mutation of programs in a dynamically typed language may be limited to a small subset of the language. This limitation introduces bias to mutpy's approach. This tool doesn't simulate a randomly selected subset of all possible mutations, but rather a randomly selected subset of some mutations. **mutpy changes only constants in source**.
 
 Suggestions on type-checking arbitrary Python forms are welcome.
-
