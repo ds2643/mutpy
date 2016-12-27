@@ -76,6 +76,7 @@ def substitute_value(node):
 
 def mutate_constants(root):
     ''' mutate a random constant in the abstract syntax tree: mutation performed in place, so this function is impure '''
+    # TODO: delete after debugging!
     root_copy = deepcopy(root)
     n_constants = count_constants(root)
     constant_node_types = {a.Num, a.Str, a.Bytes, a.NameConstant}

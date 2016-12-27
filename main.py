@@ -1,7 +1,7 @@
 import sys
 import runner as r
 import tempfile
-from shutil import copyfile
+from shutil import copyfile, copytree, rmtree
 import os.path
 import random as rnd
 import mutate as m
@@ -63,23 +63,23 @@ def run_n_mutations(n):
 
 if __name__ == "__main__":
     # TODO: support multiple src and tests files with argparse module
-    project_path = sys.argv[1]
-    rel_src_path = sys.argv[2]
-    rel_test_path = sys.argv[3]
-    iterations = sys.argv[4]
+    project_path = str(sys.argv[1])
+    rel_src_path = str(sys.argv[2])
+    rel_test_path = str(sys.argv[3])
+    iterations = int(sys.argv[4])
     temp_file_name = generate_temp_filename(TEMP_DIR)
-    assert isinstance(project_path, str) and os.path.isfile(project_path)
+    assert isinstance(project_path, str) and os.path.isdir(project_path)
     temp_project_path = TEMP_DIR + temp_file_name
     temp_test_path = temp_project_path + "/" + rel_test_path
     temp_src_path = temp_project_path + "/" + rel_src_path
 
     # prepare copy of project for munipulation
-    copyfile(project_path, temp_project_path)
+    copytree(project_path, temp_project_path)
     assert os.path.isfile(temp_test_path)
 
     init_test_results = test_results(temp_test_path)
-    test_results = run_mutation_test(temp)
+    test_results = run_mutation_test(temp_src_path, temp_test_path, rel_src_path)
 
     # TODO: print results; later add csv log support
-    assert os.path.isfile(temp_project_path) # TODO: remove after system demonstrated to work as whole
-    os.remove(temp_project_path)
+    assert os.path.isdir(temp_project_path) # TODO: remove after system demonstrated to work as whole
+    #rmtree(temp_project_path)
