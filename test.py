@@ -6,7 +6,7 @@ import os
 from shutil import copyfile
 from shutil import copytree
 from shutil import rmtree
-from copy import copy
+from copy import copy, deepcopy
 
 TEST_DIR = 'test_data/pytest_examples/'
 TEST_FILES = list(map((lambda x: TEST_DIR + x), ['test_some_pass.py', 'test_all_pass.py', 'test_all_fail.py', 'test_empty']))
@@ -222,4 +222,8 @@ def test_substitute_value():
     assert num_passing and str_passing and nameconstant_passing
 
 def test_mutate_constants():
-    assert False
+    test_program = "2; \"aenima\"; True"
+    test_root = a.parse(test_program)
+    test_root_prior = deepcopy(test_root)
+    mu.mutate_constants(test_root)
+    assert mu.verify_mutation(test_root, test_root_prior)
