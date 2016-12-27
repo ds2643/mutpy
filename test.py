@@ -192,13 +192,20 @@ def test_type_in_union():
     member_1 = mu.type_in_union(1, test_union)
     member_2 = mu.type_in_union((100, "y"), test_union)
     member_3 = mu.type_in_union("xyz", test_union)
-    accepts_members = (member_1 and member_2 and member_3)
+    accepts_members = member_1 and member_2 and member_3
     assert rejects_non_members and accepts_members
 
 def test_count_constants():
-    assert False
+    EXPECTED_NODE_COUNT = 3
+    test_program = "2; \"aenima\"; True"
+    test_root = a.parse(test_program)
+    observed_node_count = mu.count_constants(test_root)
+    assert EXPECTED_NODE_COUNT == observed_node_count
 
 def test_substitute_value():
+    test_program = "2; \"aenima\"; True"
+    test_root = a.parse(test_program)
+    test_nodes = [n for n in a.walk(test_root)]
     assert False
 
 def test_mutate_constants():

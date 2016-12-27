@@ -53,11 +53,11 @@ def count_constants(root):
     # TODO: test
     ''' counts instances of leaf nodes with constant values in abstract syntax tree grounded by root '''
     constant_node_types = {a.Num, a.Str, a.Bytes, a.NameConstant}
-    nodes = [node for node in root.walk()]
-    constant_nodes = list(filter(lambda x: type_in_union(x, constant_node_type), nodes))
+    nodes = [node for node in a.walk(root)]
+    constant_nodes = list(filter(lambda x: type_in_union(x, constant_node_types), nodes))
     return len(constant_nodes)
 
-def substitute_val(node):
+def substitute_value(node):
     # TODO: test
     ''' impure function that takes a constant node and substitudes its value for one of the same type '''
     if isinstance(node, a.Num):
