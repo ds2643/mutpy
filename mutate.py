@@ -41,7 +41,6 @@ def false_mutation(program_ast):
     return mutant_ast
 
 def type_in_union(x, u):
-    # TODO: test
     ''' returns true if type of x included in the union of types u '''
     assert isinstance(u, set)
     for t in u:
@@ -50,7 +49,6 @@ def type_in_union(x, u):
     return False
 
 def count_constants(root):
-    # TODO: test
     ''' counts instances of leaf nodes with constant values in abstract syntax tree grounded by root '''
     constant_node_types = {a.Num, a.Str, a.Bytes, a.NameConstant}
     nodes = [node for node in a.walk(root)]
@@ -58,7 +56,6 @@ def count_constants(root):
     return len(constant_nodes)
 
 def substitute_value(node):
-    # TODO: test
     ''' impure function that takes a constant node and substitudes its value for one of the same type '''
     if isinstance(node, a.Num):
         node.n = r.randrange(0, sys.maxsize)
