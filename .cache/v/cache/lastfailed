@@ -1,0 +1,5 @@
+{
+  "test.py::test_count_constants": true,
+  "test.py::test_mutate_constants": true,
+  "test.py::test_substitute_value": true
+}

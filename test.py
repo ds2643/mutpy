@@ -182,3 +182,24 @@ def test_run_mutation_test():
     result = m.run_mutation_test(temp_src_path, temp_test_path, rel_src_path)
     rmtree(temp_project_path) # TODO: clean directory
     assert isinstance(result, dict)
+
+def test_type_in_union():
+    test_union = {int, tuple, str}
+    non_member_1 = mu.type_in_union(1.0, test_union)
+    non_member_2 = mu.type_in_union([1, 2, 3], test_union)
+    non_member_3 = mu.type_in_union(int, test_union)
+    rejects_non_members =  not non_member_1 and not non_member_2 and not non_member_3
+    member_1 = mu.type_in_union(1, test_union)
+    member_2 = mu.type_in_union((100, "y"), test_union)
+    member_3 = mu.type_in_union("xyz", test_union)
+    accepts_members = (member_1 and member_2 and member_3)
+    assert rejects_non_members and accepts_members
+
+def test_count_constants():
+    assert False
+
+def test_substitute_value():
+    assert False
+
+def test_mutate_constants():
+    assert False
