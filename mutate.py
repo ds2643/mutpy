@@ -72,8 +72,10 @@ def substitute_value(node):
     elif isinstance(node, a.NameConstant):
         if node.value:
             node.value = False
-        else:
+        elif not node.value:
             node.value = True
+        else:
+            node.value = r.random() >= 0.5
 
 def mutate_constants(root, n_nodes):
     # TODO: test

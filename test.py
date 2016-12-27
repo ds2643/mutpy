@@ -6,6 +6,7 @@ import os
 from shutil import copyfile
 from shutil import copytree
 from shutil import rmtree
+from copy import copy
 
 TEST_DIR = 'test_data/pytest_examples/'
 TEST_FILES = list(map((lambda x: TEST_DIR + x), ['test_some_pass.py', 'test_all_pass.py', 'test_all_fail.py', 'test_empty']))
@@ -206,7 +207,19 @@ def test_substitute_value():
     test_program = "2; \"aenima\"; True"
     test_root = a.parse(test_program)
     test_nodes = [n for n in a.walk(test_root)]
-    assert False
+    num_node = test_nodes[4]
+    str_node = test_nodes[5]
+    nameconstant_node = test_nodes[6]
+    prior_num_value = copy(num_node.n)
+    prior_str_value = copy(str_node.s)
+    prior_nameconstant_value = copy(nameconstant_node.value)
+    mu.substitute_value(num_node)
+    mu.substitute_value(str_node)
+    mu.substitute_value(nameconstant_node)
+    num_passing = num_node.n != prior_num_value and isinstance(num_node.n, int)
+    str_passing = str_node.s != prior_str_value and isinstance(str_node.s, str)
+    nameconstant_passing = nameconstant_node.value != prior_nameconstant_value
+    assert num_passing and str_passing and nameconstant_passing
 
 def test_mutate_constants():
     assert False
